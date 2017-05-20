@@ -1,0 +1,22 @@
+const storage = require('./storage')
+
+storage.put('first', 'value1')
+storage.put('second', 2)
+//storage.put(3, 'key is not a string')
+//storage.put('second', 'duplicated key')
+console.log(storage.get('second'))
+storage.update('first', 'updated value1')
+console.log(storage.get('first'))
+storage.deleteItem('second')
+storage.clear()
+storage.put('first', 'value1')
+storage.put('second', 2)
+storage
+  .save()
+  .then((msg) => console.log(msg))
+  .catch((err) => {throw new Error(err)})
+storage.put('third', 'value3')
+storage
+  .load()
+  .then((data) => console.log(data))
+  .catch((err) => {throw new Error(err)})

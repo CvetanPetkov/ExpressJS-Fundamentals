@@ -1,0 +1,11 @@
+{
+  "name": "exercise01",
+  "version": "1.0.0",
+  "description": "exercise",
+  "main": "index.js",
+  "devDependencies": {
+    "standard": "*"
+  },
+  "author": "Cvetan Petkov",
+  "license": "MIT"
+}
