@@ -1,0 +1,14 @@
+{
+  "name": "shop-stop-api",
+  "version": "1.0.0",
+  "description": "crud operations with node, mongo, express",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Cvetan Petkov",
+  "license": "MIT",
+  "dependencies": {
+    "standard": "*"
+  }
+}
