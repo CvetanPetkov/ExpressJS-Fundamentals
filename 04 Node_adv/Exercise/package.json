@@ -1,0 +1,13 @@
+{
+  "name": "exercise",
+  "version": "1.0.0",
+  "description": "homework",
+  "main": "index.js",
+  "author": "Cvetan Petkov",
+  "license": "MIT",
+  "dependencies": {
+    "formidable": "1.1.1",
+    "shortid": "2.2.8",
+    "standard": "10.0.2"
+  }
+}
