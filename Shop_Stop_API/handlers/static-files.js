@@ -2,13 +2,6 @@ const fs = require('fs')
 const path = require('path')
 const url = require('url')
 
-function getContentType (url) {
-  if (path.extname(url) === '.css') return 'text/css'
-  else if (path.extname(url) === '.ico') return 'image/x-icon'
-  else if (path.extname(url) === '.html') return 'text/html'
-  return 'text/plain'
-}
-
 module.exports = (req, res) => {
   req.pathname = req.pathname || url.parse(req.url).pathname
 
@@ -36,4 +29,13 @@ module.exports = (req, res) => {
   } else {
     return true
   }
+}
+
+//  HELPER FUNCTIONS
+
+function getContentType (url) {
+  if (path.extname(url) === '.css') return 'text/css'
+  else if (path.extname(url) === '.ico') return 'image/x-icon'
+  else if (path.extname(url) === '.html') return 'text/html'
+  return 'text/plain'
 }
