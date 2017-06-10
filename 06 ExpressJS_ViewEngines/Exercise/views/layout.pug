@@ -1,0 +1,35 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible', content='ie=edge')
+        title Planes Catalog
+        link(rel='icon', type='image/x-icon', href='/content/images/favicon.ico')
+        link(rel='stylesheet', type='text/css', href='/public/css/site.css')
+    body
+        header
+            nav.nav
+                ul
+                    li
+                        a(href='/') Home Page
+                    li
+                        a(href='/about') About
+                    li
+                        a(href='/contact-us') Contact Us
+                    li
+                        a(href='/plane/add') Add Plane
+                    li
+                        a(href='/plane/add/rocket') Add Rocket to Plane
+                    li
+                        a(href='/rocket/add') Add Rocket
+
+        if error
+            h2.error-msg= error
+        else if success
+            h2.success-msg= success
+
+        main
+            block content
+        footer
+            p &copy;Planes Catalog

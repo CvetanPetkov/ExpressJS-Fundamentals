@@ -1,0 +1,20 @@
+extends ../layout.pug
+
+block content
+    h2 Add Rocket to Plane
+    form(method='POST')
+        lebel Select Rocket
+        br
+        select(name='rocketId')
+            each rocket in rockets
+                option(value=`${rocket._id}`)= rocket.name
+        br
+        br
+        br
+        label Select Plane
+        br
+        select(name='planeId')
+            each plane in planes
+                option(value=`${plane._id}`)= plane.name
+        br
+        input(type='submit', value='Add')

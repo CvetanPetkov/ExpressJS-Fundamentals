@@ -1,0 +1,15 @@
+extends ../layout.pug
+
+block content
+
+    h2 I am home page
+
+    each plane in planes
+        div
+            h2= plane.name
+            img(src = plane.image)
+            p= plane.description
+            p= 'US$ ' + plane.price
+            h3 Rockets:
+            each rocket in plane.rockets
+                p= rocket.name
