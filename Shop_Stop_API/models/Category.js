@@ -6,6 +6,11 @@ let categorySchema = mongoose.Schema({
     required: true,
     unique: true
   },
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   products: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product'
