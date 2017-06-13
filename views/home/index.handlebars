@@ -1,0 +1,16 @@
+<h1>Welcome to my Exam preparation - Twitter like system</h1>
+
+{{#if tweets}}
+    <p>This is list of all tweets!</p>
+    {{#each tweets}}
+        <div>{{this.message}}</div>
+    {{/each}}
+{{/if}}
+
+{{#if tagTweets}}
+    <p>This is list of all tweets with the selected tag!</p>
+    {{#each tagTweets.tweetMsg}}
+        <div>{{this.message}}</div>
+    {{/each}}
+{{/if}}
+
