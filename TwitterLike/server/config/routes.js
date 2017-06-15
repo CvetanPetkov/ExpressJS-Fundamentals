@@ -10,12 +10,14 @@ module.exports = (app) => {
   app.post('/users/login', controllers.users.loginPost)
   app.post('/users/logout', controllers.users.logout)
 
-  app.get('/profile/:username', auth.isAuthenticated,controllers.users.profile)
+  app.get('/profile/:username', auth.isAuthenticated, controllers.users.profile)
 
   app.get('/tweet', auth.isAuthenticated, controllers.tweet.tweetGet)
   app.post('/tweet', auth.isAuthenticated, controllers.tweet.tweetPost)
+  app.get('/tweet/delete/:tweetId', auth.isInRole, controllers.tweet.tweetDel)
 
   app.get('/tag/', auth.isAuthenticated, controllers.tag.tagGet)
+  app.get('/tag/:tagName', auth.isAuthenticated, controllers.tag.tagGet)
 
   app.all('*', (req, res) => {
     res.status(404)

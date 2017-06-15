@@ -1,6 +1,7 @@
 const encryption = require('../utilities/encryption')
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
+const Tag = mongoose.model('Tag')
 const errorHandler = require('../utilities/error-handler')
 
 module.exports = {
@@ -70,16 +71,29 @@ module.exports = {
     res.redirect('/')
   },
   profile: (req, res) => {
-    let userId = req.user._id
+    let userId = req.body._id
 
-    Renting
-      .find({user: userId})
-      .sort('-rentedOn')  //  sorts by newly rented
-      .populate('car')    //  emit all cars rented from user
-      .then((rentings) => {
-        res.render('users/profile', {
-          rentings: rentings
-        })
+    User  //  add sorting by newest tweets
+      .findOne({user: userId})
+      .populate('tweets')    //  emit all tweets from user
+      .then((tweets) => {
+        Tag.find()
+          .then((tags) => {
+            let userTweets = tweets.tweets
+            let allTags = tags
+
+            userTweets.reverse()//must be done with sort
+
+            res.render('users/profile', {
+              tweets: userTweets,
+              tags: allTags
+            })
+          })
+          .catch((err) => {
+            let message = errorHandler.handleMongooseError(err)
+            res.locals.globalError = message
+            res.redirect('user/profile', userId)
+          })
       })
       .catch((err) => {
         let message = errorHandler.handleMongooseError(err)

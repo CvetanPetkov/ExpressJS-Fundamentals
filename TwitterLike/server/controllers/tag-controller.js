@@ -5,21 +5,25 @@ const errorHandler = require('../utilities/error-handler')
 
 module.exports = {
   tagGet: (req, res) => {
-    let tagName = req.query.tagName
+    let tagName = ''
+    if (req.query.tagName) {
+      tagName = req.query.tagName  // extract from select
+    } else {
+      tagName = req.params.tagName //extract from direct url
+    }
 
     Tag  //  add sorting by newest tweets
       .findOne({tagName: tagName})
       .populate('tweetMsg')
-      .then((tagTweets) => {
-
-        tagTweets.tweetMsg.reverse()//must be done with sort
+      .then((tag) => {
+        tag.tweetMsg.sort((tweet) => tweet.createdOn)
 
         Tag
           .find()
           .then((tags) => {
             res.render('home/index', {
               tags: tags,
-              tagTweets: tagTweets
+              tagTweets: tag
             })
           })
           .catch((err) => {

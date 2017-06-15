@@ -17,6 +17,10 @@ let tweetSchema = new mongoose.Schema({
     type: types.ObjectId,
     ref: 'User'
   },
+  tags: [{
+    type: types.ObjectId,
+    ref: 'Tag'
+  }],
   createdOn: {
     type: Date,
     default: Date.now()

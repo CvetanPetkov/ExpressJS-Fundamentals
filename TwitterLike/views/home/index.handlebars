@@ -1,16 +1,30 @@
 <h1>Welcome to my Exam preparation - Twitter like system</h1>
-
-{{#if tweets}}
-    <p>This is list of all tweets!</p>
-    {{#each tweets}}
-        <div>{{this.message}}</div>
-    {{/each}}
+{{#if isAdmin}}
+    {{#if tweets}}
+        <p>This is list of all tweets!</p>
+        {{#each tweets}}
+            <div>
+                <p>{{this.message}}&nbsp;&nbsp;&nbsp;<a href="/tweet/delete/{{this._id}}">Delete</a>&nbsp;&nbsp;&nbsp;<a href="/tweet/edit/{{this._id}}">Edit</a>
+                </p>
+            </div>
+        {{/each}}
+    {{/if}}
+{{/if}}
+{{^if isAdmin}}
+    {{#if tweets}}
+        <p>This is list of all tweets!</p>
+        {{#each tweets}}
+            <div>
+                <p>{{this.message}}</p>
+            </div>
+        {{/each}}
+    {{/if}}
 {{/if}}
 
-{{#if tagTweets}}
-    <p>This is list of all tweets with the selected tag!</p>
-    {{#each tagTweets.tweetMsg}}
-        <div>{{this.message}}</div>
-    {{/each}}
-{{/if}}
 
+    {{#if tagTweets}}
+        <p>This is list of all tweets with the selected tag!</p>
+        {{#each tagTweets.tweetMsg}}
+            <p>{{this.message}}</p>
+        {{/each}}
+    {{/if}}

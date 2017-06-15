@@ -1,25 +1,30 @@
 const mongoose = require('mongoose')
+const types = mongoose.Schema.Types
 const encryption = require('../utilities/encryption')
 
 const REQUIRED_VALIDATION_MESSAGE = '{PATH} is required'
 
 let userSchema = new mongoose.Schema({
   username: {
-    type: String,
+    type: types.String,
     required: REQUIRED_VALIDATION_MESSAGE,
     unique: true
   },
   firstName: {
-    type: String,
+    type: types.String,
     required: REQUIRED_VALIDATION_MESSAGE
   },
   lastName: {
-    type: String,
+    type: types.String,
     required: REQUIRED_VALIDATION_MESSAGE
   },
-  salt: String,
-  hashedPass: String,
-  roles: [String]
+  tweets: [{
+    type: types.ObjectId,
+    ref: 'Tweet'
+  }],
+  salt: types.String,
+  hashedPass: types.String,
+  roles: [types.String]
 })
 
 userSchema.method({

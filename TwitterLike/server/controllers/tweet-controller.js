@@ -1,11 +1,21 @@
 const mongoose = require('mongoose')
+const User = mongoose.model('User')
 const Tweet = mongoose.model('Tweet')
 const Tag = mongoose.model('Tag')
 const errorHandler = require('../utilities/error-handler')
 
 module.exports = {
   tweetGet: (req, res) => {
-    res.render('tweet/add')
+
+    Tag.find()
+      .then((tags) => {
+        res.render('tweet/add', {tags: tags})
+      })
+      .catch((err) => {
+        let message = errorHandler.handleMongooseError(err)
+        res.locals.globalError = message
+        res.redirect('tweet/add')
+      })
   },
   tweetPost: (req, res) => {
     let tweetReq = req.body
@@ -13,8 +23,7 @@ module.exports = {
     let message = tweetReq.message
     let creator = req.user._id
 
-    Tweet
-      .create({
+    Tweet.create({
         message: message,
         creator: creator
       })
@@ -26,8 +35,7 @@ module.exports = {
             let tagName = word.slice(1, word.length)
             let tweetMsg = tweet._id
 
-            Tag
-              .findOne({tagName: tagName})
+            Tag.findOne({tagName: tagName})
               .then((tag) => {
                 if (!tag) {
                   Tag
@@ -35,27 +43,18 @@ module.exports = {
                       tagName: tagName,
                       tweetMsg: tweetMsg
                     })
-                    .then((tag) => {
-                      console.log('Tag created - ' + tag.tagName)
+                    .then((newTag) => {
+                      newTag.tweetMsg.push(tweet)
                     })
                     .catch((err) => {
                       let message = errorHandler.handleMongooseError(err)
                       res.locals.globalError = message
                       res.redirect('tweet/add', tweetReq)
                     })
+                } else {
+                  tag.tweetMsg.push(tweet)
+                  tag.save()
                 }
-
-                Tag
-                  .findOne({tagName: tagName})
-                  .then((tag) => {
-                    tag.tweetMsg.push(tweet)
-                    tag.save()
-                  })
-                  .catch((err) => {
-                    let message = errorHandler.handleMongooseError(err)
-                    res.locals.globalError = message
-                    res.redirect('tweet/add', tweetReq)
-                  })
               })
               .catch((err) => {
                 let message = errorHandler.handleMongooseError(err)
@@ -65,6 +64,17 @@ module.exports = {
           }
         }
 
+        User.findById(creator)
+          .then((user) => {
+            user.tweets.push(tweet)
+            user.save()
+          })
+          .catch((err) => {
+            let message = errorHandler.handleMongooseError(err)
+            res.locals.globalError = message
+            res.redirect('tweet/add', tweetReq)
+          })
+
         res.redirect('/')
       })
       .catch((err) => {
@@ -72,8 +82,10 @@ module.exports = {
         res.locals.globalError = message
         res.redirect('tweet/add', tweetReq)
       })
+
   },
-  all: (req, res) => {
+  tweetDel: (req, res) => {
+    let tweetName = req.params.tagName //extract from direct url
 
   }
 }

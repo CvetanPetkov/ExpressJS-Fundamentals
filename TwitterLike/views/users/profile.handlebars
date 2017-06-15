@@ -1,31 +1,27 @@
 <table>
     <tr>
         <th>
-            Car
+            Tweet
         </th>
         <th>
             Date
         </th>
         <th>
-            Days
         </th>
         <th>
-            Total Price
         </th>
     </tr>
-    {{#each rentings}}
+    {{#each tweets}}
         <tr>
             <td>
-                {{this.car.make}} {{this.car.model}} {{this.car.year}}
+                {{this.message}}
             </td>
             <td>
-                {{this.rentedOn}}
+                {{this.createdOn}}
             </td>
             <td>
-                {{this.days}}
             </td>
             <td>
-                {{this.totalPrice}}
             </td>
         </tr>
     {{/each}}
