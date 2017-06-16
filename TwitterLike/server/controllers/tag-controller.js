@@ -12,7 +12,7 @@ module.exports = {
       tagName = req.params.tagName //extract from direct url
     }
 
-    Tag  //  add sorting by newest tweets
+    Tag  //  add sorting by newest tweets and limit .limit()
       .findOne({tagName: tagName})
       .populate('tweetMsg')
       .then((tag) => {
