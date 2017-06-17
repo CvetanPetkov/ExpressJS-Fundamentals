@@ -100,5 +100,30 @@ module.exports = {
         res.locals.globalError = message
         res.redirect('user/profile', userId)
       })
+  },
+  adminsAll: (req, res) => {
+    User.find({roles: {$in: ['Admin']}}) // $nin finds not Admin
+      .then((users) => {
+        res.render('users/admins', {users: users})
+      })
+  },
+  adminsAddGet: (req, res) => {
+    User.find({roles: {$nin: ['Admin']}}) // $in finds Admin
+      .then((users) => {
+        res.render('users/add', {users: users})
+      })
+  },
+  adminsAddPost: (req, res) => {
+    let username = req.body.username
+
+    User.findOneAndUpdate({
+        username: username
+      },
+      {
+        $push: {roles: 'Admin'}
+      })
+      .then(() => {
+        res.redirect('/')
+      })
   }
 }

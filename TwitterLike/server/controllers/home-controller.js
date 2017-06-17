@@ -13,19 +13,17 @@ module.exports = {
     //   }
     // }
 
-    Tweet
-      .find()
+    Tweet.find()
       .then((tweets) => {
         if (tweets) {
           tweets.sort((tweet) => tweet.createdOn)
 
-          Tag
-            .find()
+          Tag.find()
             .then((tag) => {
-                res.render('home/index', {
-                  tags: tag,
-                  tweets: tweets
-                })
+              res.render('home/index', {
+                tags: tag,
+                tweets: tweets
+              })
             })
             .catch((err) => {
               let message = errorHandler.handleMongooseError(err)

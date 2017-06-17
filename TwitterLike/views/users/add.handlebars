@@ -1,0 +1,13 @@
+<p>This is list of all Users!</p>
+
+{{#each users}}
+    <div>
+        <p>username: {{this.username}}</p>
+        <p>first name: {{this.firstName}}</p>
+        <p>last name: {{this.lastName}}</p>
+        <form method="post">
+            <input type="text" name="username" value="{{this.username}}">
+            <input type="submit" value="Add as Admin">
+        </form>
+    </div>
+{{/each}}

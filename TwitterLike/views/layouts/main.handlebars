@@ -8,9 +8,6 @@
 <div class="container">
     <ul class="menu">
         <li><a href="/">Home</a></li>
-        {{#if isAdmin}}
-            <!--TODO add admin menu-->
-        {{/if}}
         <li>&nbsp;&nbsp;&nbsp;</li>
         {{#if currentUser}}
             <li><a href="/tweet">Create Tweet</a></li>
@@ -25,6 +22,10 @@
                 </form>
             </li>
             <li><a href="/profile/{{currentUser.username}}">{{currentUser.username}}</a></li>
+            {{#if isAdmin}}
+                <li><a href="/admins/all">All Admins</a></li>
+                <li><a href="/admins/add">Add Admin</a></li>
+            {{/if}}
             <li>
                 <form id="logout-form" action="/users/logout" method="POST"></form>
                 <a href="javascript:document.getElementById('logout-form').submit()">Logout</a>
