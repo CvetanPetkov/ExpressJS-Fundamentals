@@ -1,0 +1,19 @@
+<h1>Welcome to my Exam - Messenger like system</h1>
+
+<div class="chat-area">
+{{#if threads}}
+    <h2>Here are all off {{currentUser.username}} threads!</h2>
+    {{#each threads}}
+        <div class="outer">
+            <div>Thread: {{this._id}}</div>
+            <div>Started at: {{this.createdAt}}</div>
+            <div class="currUser-name">Opened By: {{this.openedBy.username}}</div>
+            <div class="particip-name">Participant: {{this.participant.username}}</div>
+        </div>
+    {{/each}}
+{{/if}}
+</div>
+
+{{#if globalError}}
+    <h3>{{globalError}}</h3>
+{{/if}}

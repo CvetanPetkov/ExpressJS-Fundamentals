@@ -1,0 +1,43 @@
+body {
+    width: 960px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: red
+}
+
+.menu {
+    list-style-type: none;
+    padding-left: 0;
+}
+.menu li {
+    display: inline-block
+}
+.menu li:after {
+    content: "\00a0";
+}
+
+.chat-area {
+    background-color: rgb(178, 213, 255);
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 25px;
+}
+
+.outer {
+    width: 70%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: solid 1px grey;
+    border-radius: 10px;
+}
+
+.recipient-color {
+    background-color: #ddcaff;
+}
+
+.owner-color {
+    margin-left: 27%;
+    background-color: #94e5b0;
+}

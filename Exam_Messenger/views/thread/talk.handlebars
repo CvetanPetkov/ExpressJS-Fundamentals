@@ -1,0 +1,49 @@
+<div class="chat-area">
+    {{#if newThread}}
+        <h2>You can start a conversation with the user {{reqUser.username}}</h2>
+        <form action="/thread/message/{{newThread}}/{{reqUser._id}}" method="post">
+            <br>
+            <div>Your first message to user: {{reqUser.username}}</div>
+            <br>
+            <input type="text" name="message">
+            <input type="submit" value="Send">
+        </form>
+    {{else}}
+
+        {{#if thread}}
+            <h2>Your conversation with the user {{reqUser.username}}</h2>
+
+            {{#each thread.messages}}
+                {{#if this.isCurrUserOwned}}
+                    <div class="outer owner-color">
+                        <div>Message: {{this.message}}</div>
+                        <br />
+                        <div>Author: {{this.creator.username}}</div>
+                        <br />
+                        <div>Posted on: {{this.createdAt}}</div>
+                    </div>
+                {{else}}
+                    <div class="outer recipient-color">
+                        <div>Message: {{this.message}}</div>
+                        <br />
+                        <div>Author: {{this.creator.username}}</div>
+                        <br />
+                        <div>Posted on: {{this.createdAt}}</div>
+                    </div>
+                {{/if}}
+            {{/each}}
+
+            <form action="/thread/message/{{thread._id}}/{{reqUser._id}}" method="post">
+                <br>
+                <div>Your new message to user: {{reqUser.username}}</div>
+                <br>
+                <input type="text" name="message">
+                <input type="submit" value="Send">
+            </form>
+        {{/if}}
+    {{/if}}
+</div>
+
+{{#if globalError}}
+    <h3>{{globalError}}</h3>
+{{/if}}
