@@ -12,6 +12,8 @@ module.exports = (app) => {
   app.get('/users/login', controllers.users.loginGet)
   app.post('/users/login', controllers.users.loginPost)
   app.post('/users/logout', controllers.users.logout)
+//  app.get('/users/unblock/', controllers.users.unblockUser)
+  app.get('/users/block/:userId', controllers.users.blockUser)
 
   app.all('*', (req, res) => {
     res.status(404)

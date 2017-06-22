@@ -3,61 +3,101 @@ const User = mongoose.model('User')
 const Message = mongoose.model('Message')
 const Thread = mongoose.model('Thread')
 
+const serveData = require('../utilities/serveData')
 const errorHandler = require('../utilities/error-handler')
 
 module.exports = {
   searchPost: (req, res) => {
     let currUser = req.user
-    //  let reqUser = req.body.username
     let reqUser = req.query.username
 
-    User.find().findByUsername(reqUser)
-      .then((reqUser) => {
-        if (reqUser) {
+    //  console.log(req.user.blockedUsers)
 
-          Thread.findOne().findBothUsers(currUser._id, reqUser._id)
-            .lean()  //  converts the received model to modifiable object - plain JS object
-            .then((thread) => {
+    if (currUser.username === reqUser) {
+      let message = 'You can not send message to yourself!'
+      res.locals.globalError = message
+      res.redirect('/')
+    } else {
 
-              //  console.log(thread)
-              //  console.log(thread[0].messages[0].creator._id)
-              //  console.log(currUser._id)
+      User.find().findByUsername(reqUser)
+        .then((reqUser) => {
+          if (reqUser) {
 
-              if (thread.length > 0) {
-                thread[0].messages.map((msg) => {
-                  if (msg.creator._id.toString() === currUser._id.toString()) {
-                    msg.isCurrUserOwned = true
-                  }
-                })
+            Thread.findOne().findBothUsers(currUser._id, reqUser._id)
+              .lean()  //  converts the received model to modifiable object - plain JS object
+              .then((thread) => {
 
-                thread[0].messages.sort((msg1, msg2) => {
-                  return msg2.createdAt - msg1.createdAt
-                })
+                //  console.log(thread)
+                //  console.log(thread[0].messages[0].creator._id)
+                //  console.log(currUser._id)
 
-                //  console.log(thread[0].messages[0].isCurrUserOwned)
+                if (thread.length > 0) {
 
-                res.render('thread/talk', {thread: thread[0], reqUser: reqUser})
-              } else {
-                res.render('thread/talk', {newThread: 'newThread', reqUser: reqUser})
-              }
-            })
-            .catch((err) => {
-              console.log(err)
-              let message = errorHandler.handleMongooseError(err)
-              res.locals.globalError = message
-              res.redirect('/')
-            })
-        } else {
-          res.locals.globalError = 'No such user!'
+                  currUser.blockedUsers.map((blockedUser) => {
+                    if (blockedUser.toString() === reqUser._id.toString()) {
+                      thread[0].isBlockedFromMe = true
+                    }
+                  })
+
+                  reqUser.blockedUsers.map((blockedUser) => {
+                    if (blockedUser._id.toString() === currUser._id.toString()) {
+                      thread[0].isBlockedFromOther = true
+                    }
+                  })
+
+                  thread[0].messages.map((msg) => {
+                    if (msg.creator._id.toString() === currUser._id.toString()) {
+                      msg.isCurrUserOwned = true
+                    }
+
+                    switch (serveData.hyperlinksChecker(msg)) {
+                      case 'isHyperLink':
+                        msg.isHyperLink = true
+                        break
+                      case 'isImage':
+                        msg.isImage = true
+                        break
+                      default:
+                        break
+                    }
+                  })
+
+                  thread[0].messages.sort((msg1, msg2) => {
+                    return msg1.createdAt - msg2.createdAt
+                  })
+
+                  //  console.log(thread[0].messages[0].isCurrUserOwned)
+                  //  for (let msg of thread[0].messages) {
+                  //    console.log(msg.isHyperLink)
+                  //    console.log(msg.isImage)
+                  //  }
+                  //  console.log(thread[0].isBlockedFromOther)
+                  //  console.log(thread[0].isBlockedFromMe)
+
+                  res.render('thread/talk', {thread: thread[0], reqUser: reqUser})
+                } else {
+                  res.render('thread/talk', {newThread: 'newThread', reqUser: reqUser})
+                }
+              })
+              .catch((err) => {
+                console.log(err)
+                let message = errorHandler.handleMongooseError(err)
+                res.locals.globalError = message
+                res.redirect('/')
+              })
+          } else {
+            res.locals.globalError = 'No such user!'
+            return res.redirect('/')
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          let message = errorHandler.handleMongooseError(err)
+          res.locals.globalError = message
           res.redirect('/')
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-        let message = errorHandler.handleMongooseError(err)
-        res.locals.globalError = message
-        res.redirect('/')
-      })
+        })
+
+    }
   },
   sendMessage: (req, res) => {
     let currUserId = req.user._id

@@ -16,15 +16,33 @@
             {{#each thread.messages}}
                 {{#if this.isCurrUserOwned}}
                     <div class="outer owner-color">
-                        <div>Message: {{this.message}}</div>
+                        {{#if this.isHyperLink}}
+                            <div>Message: <a href="{{this.message}}" target="_blank">{{this.message}}</a></div>
+                        {{else}}
+                            {{#if this.isImage}}
+                                <div>Message: <img src="{{this.message}}" /></div>
+                            {{else}}
+                                <div>Message: bah maamu{{this.message}}</div>
+                            {{/if}}
+                        {{/if}}
                         <br />
                         <div>Author: {{this.creator.username}}</div>
                         <br />
                         <div>Posted on: {{this.createdAt}}</div>
                     </div>
+
                 {{else}}
+
                     <div class="outer recipient-color">
-                        <div>Message: {{this.message}}</div>
+                        {{#if this.isHyperLink}}
+                            <div>Message: <a href="{{this.message}}" target="_blank">{{this.message}}</a></div>
+                        {{else}}
+                            {{#if this.isImage}}
+                                <div>Message: <img src="{{this.message}}" /></div>
+                            {{else}}
+                                <div>Message: bah maamu{{this.message}}</div>
+                            {{/if}}
+                        {{/if}}
                         <br />
                         <div>Author: {{this.creator.username}}</div>
                         <br />
@@ -32,15 +50,25 @@
                     </div>
                 {{/if}}
             {{/each}}
-
-            <form action="/thread/message/{{thread._id}}/{{reqUser._id}}" method="post">
-                <br>
-                <div>Your new message to user: {{reqUser.username}}</div>
-                <br>
-                <input type="text" name="message">
-                <input type="submit" value="Send">
-            </form>
         {{/if}}
+
+        {{#if thread.isBlockedFromMe}}
+            <div>You have blocked this user. <a href="/users/unblock/{{reqUser._id}}">Unblock</a></div>
+        {{else}}
+            {{#if thread.isBlockedFromOther}}
+                <div>You are currently blocked from this user and can not send him message anymore!</div>
+            {{else}}
+                <form action="/thread/message/{{thread._id}}/{{reqUser._id}}" method="post">
+                    <br>
+                    <div>Your new message to user: {{reqUser.username}} ------- <a href="/users/block/{{reqUser._id}}">Block
+                        this user</a></div>
+                    <br>
+                    <input type="text" name="message">
+                    <input type="submit" value="Send">
+                </form>
+            {{/if}}
+        {{/if}}
+
     {{/if}}
 </div>
 

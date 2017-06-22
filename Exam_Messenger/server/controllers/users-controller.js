@@ -68,6 +68,26 @@ module.exports = {
   logout: (req, res) => {
     req.logout()
     res.redirect('/')
-  }
+  },
+  blockUser: (req, res) => {
+    let currUser = req.user
+    let reqUser = req.params.userId
 
+    User.findById(currUser)
+      .then((user) => {
+        user.blockedUsers.push(reqUser)
+        user.save()
+
+        User.findById(reqUser)
+          .then((reqUser) => {
+            res.redirect(`/thread/?username=${reqUser.username}`)
+          })
+      })
+      .catch((err) => {
+        console.log(err)
+        let message = errorHandler.handleMongooseError(err)
+        res.locals.globalError = message
+        res.redirect('/')
+      })
+  }
 }
