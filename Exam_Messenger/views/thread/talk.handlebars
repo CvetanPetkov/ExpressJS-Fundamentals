@@ -29,6 +29,7 @@
             <div>Author: {{this.creator.username}}</div>
             <br />
             <div>Posted on: {{this.createdAt}}</div>
+            <img src="{{this.creator.avatar}}" class='avatar' />
             <div class='likes-block'>
               <img src='/icons/ThumbsUp-128.png' /> Likes: {{this.likes.length}}
             </div>
@@ -50,6 +51,7 @@
             <div>Author: {{this.creator.username}}</div>
             <br />
             <div>Posted on: {{this.createdAt}}</div>
+            <img src="{{this.creator.avatar}}" class='avatar' />
             <div class='likes-block'>
               <a href='/message/like/{{this._id}}/{{this.creator._id}}'><img src='/icons/ThumbsUp-128.png' /> Like this</a>
               - {{this.likes.length}}

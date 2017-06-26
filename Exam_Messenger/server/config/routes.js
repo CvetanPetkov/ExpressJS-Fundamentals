@@ -1,5 +1,8 @@
 const controllers = require('../controllers')
 const auth = require('./auth')
+const multer = require('multer')
+
+let upload = multer({dest: './public/icons'})
 
 module.exports = (app) => {
   app.get('/', controllers.home.indexGet)
@@ -12,7 +15,7 @@ module.exports = (app) => {
   app.post('/thread/message/:threadId/:reqUserId', auth.isAuthenticated, controllers.thread.sendMessage)
 
   app.get('/users/register', controllers.users.registerGet)
-  app.post('/users/register', controllers.users.registerPost)
+  app.post('/users/register',upload.single('avatar'), controllers.users.registerPost)
   app.get('/users/login', controllers.users.loginGet)
   app.post('/users/login', controllers.users.loginPost)
   app.post('/users/logout', controllers.users.logout)

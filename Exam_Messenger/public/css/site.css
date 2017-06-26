@@ -27,6 +27,7 @@ h1 {
 
 .outer {
     width: 70%;
+    min-height: 200px;
     margin-bottom: 15px;
     padding: 10px;
     border: solid 1px grey;
@@ -67,7 +68,7 @@ h1 {
     padding-left: 10px;
     padding-right: 10px;
     position: absolute;
-    top: -1px;
+    bottom: -1px;
     right: -1px;
 }
 
@@ -78,4 +79,26 @@ h1 {
 
 .likes-block img {
     margin: 15px 0;
+}
+
+.avatar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    margin: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.avatar-holder {
+    position: relative;
+}
+
+.avatar-user-menu {
+    width: 50px;
+    position: absolute;
+    top: -15px;
+    right: -50px;
 }

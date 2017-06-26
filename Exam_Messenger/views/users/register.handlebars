@@ -1,19 +1,21 @@
-<form action="/users/register" method="POST">
-    Username
-    <input type="text" name="username" />
-    <br />
-    Password
-    <input type="password" name="password" />
-    <br />
-    First Name
-    <input type="text" name="firstName" />
-    <br />
-    Last Name
-    <input type="text" name="lastName" />
-    <br />
-    <input type="submit" value="Register" />
+<form action="/users/register" method="POST" enctype="multipart/form-data">
+  Username
+  <input type="text" name="username" />
+  <br />
+  Password
+  <input type="password" name="password" />
+  <br />
+  First Name
+  <input type="text" name="firstName" />
+  <br />
+  Last Name
+  <input type="text" name="lastName" />
+  <br />
+  Avatar
+  <input type="file" accept="image/*" name="avatar" />
+  <input type="submit" value="Register" />
 </form>
 
 {{#if globalError}}
-    <h3>{{globalError}}</h3>
+  <h3>{{globalError}}</h3>
 {{/if}}

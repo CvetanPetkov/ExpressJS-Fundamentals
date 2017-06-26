@@ -11,8 +11,10 @@
         <div class="particip-name">Participant: {{this.participant.username}}</div>
         {{#if this.isCurrUserOwned}}
           <div class='home-view-messages'><a href='/thread/{{this.participant.username}}'>View messages</a></div>
+          <img src='{{this.participant.avatar}}' class='avatar' />
         {{else}}
           <div class='home-view-messages'><a href='/thread/{{this.openedBy.username}}'>View messages</a></div>
+          <img src='{{this.openedBy.avatar}}' class='avatar' />
         {{/if}}
 
       </div>

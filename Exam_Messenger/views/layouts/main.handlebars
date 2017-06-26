@@ -15,7 +15,7 @@
                 <a href="javascript:document.getElementById('logout-form').submit()">Logout</a>
             </li>
             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
-            <li>Welcome {{currentUser.username}}</li>
+            <li class='avatar-holder'>Welcome {{currentUser.username}} <img src='{{currentUser.avatar}}' class='avatar-user-menu' /></li>
         {{else}}
             <li><a href="/users/register">Register</a></li>
             <li><a href="/users/login">Login</a></li>

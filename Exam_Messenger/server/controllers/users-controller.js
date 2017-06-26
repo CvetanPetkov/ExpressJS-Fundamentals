@@ -1,5 +1,6 @@
 const encryption = require('../utilities/encryption')
 const mongoose = require('mongoose')
+const fs = require('fs')
 const User = mongoose.model('User')
 const errorHandler = require('../utilities/error-handler')
 
@@ -13,13 +14,20 @@ module.exports = {
     let salt = encryption.generateSalt()
     let hashedPassword = encryption.generateHashedPassword(salt, reqUser.password)
 
-    User.create({
+    let userObj = {
       username: reqUser.username,
       firstName: reqUser.firstName,
       lastName: reqUser.lastName,
       salt: salt,
       hashedPass: hashedPassword
-    }).then((user) => {
+    }
+
+    if (req.file) {
+      userObj.avatar = `/icons/${req.file.filename}`
+    }
+
+    User.create(userObj)
+      .then((user) => {
       req.logIn(user, (err, user) => {
         if (err) {
           res.locals.globalError = err

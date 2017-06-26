@@ -22,6 +22,10 @@ let userSchema = new mongoose.Schema({
     type: [types.ObjectId],
     ref: 'User'
   }],
+  avatar: {
+    type: types.String,
+    default: '/icons/avatar-default1.png'
+  },
   salt: types.String,
   hashedPass: types.String,
   roles: [types.String]
