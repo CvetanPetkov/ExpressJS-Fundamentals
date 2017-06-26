@@ -31,6 +31,15 @@ h1 {
     padding: 10px;
     border: solid 1px grey;
     border-radius: 10px;
+    position: relative;
+}
+
+.outer>div {
+    width: 70%;
+}
+
+.outer .likes-block {
+    width: 120px;
 }
 
 .recipient-color {
@@ -40,4 +49,33 @@ h1 {
 .owner-color {
     margin-left: 27%;
     background-color: #94e5b0;
+}
+
+.home-view-messages {
+    text-align: right;
+    padding-right: 20px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.likes-block {
+    background-color: lightgray;
+    width: 120px;
+    border: solid 1px purple;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: absolute;
+    top: -1px;
+    right: -1px;
+}
+
+.likes-block img {
+    width: 30px;
+    vertical-align: middle;
+}
+
+.likes-block img {
+    margin: 15px 0;
 }

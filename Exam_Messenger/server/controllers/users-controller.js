@@ -89,5 +89,40 @@ module.exports = {
         res.locals.globalError = message
         res.redirect('/')
       })
+  },
+  unblockUser: (req, res) => {
+    let currUser = req.user
+    let reqUser = req.params.userId
+
+    User.findById(currUser)
+      .populate('blockedUsers')
+      .then((user) => {
+        let blockedUserIndex = null
+
+        user.blockedUsers.map((blockedUser, index) => {
+          // console.log(index)
+          // console.log(blockedUser)
+
+          if (blockedUser._id.toString() === reqUser.toString()) {
+            blockedUserIndex = index
+          }
+        })
+
+        // console.log(blockedUserIndex)
+
+        user.blockedUsers.splice(blockedUserIndex, 1)
+        user.save()
+
+        User.findById(reqUser)
+          .then((reqUser) => {
+            res.redirect(`/thread/?username=${reqUser.username}`)
+          })
+      })
+      .catch((err) => {
+        console.log(err)
+        let message = errorHandler.handleMongooseError(err)
+        res.locals.globalError = message
+        res.redirect('/')
+      })
   }
 }

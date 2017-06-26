@@ -1,19 +1,25 @@
 <h1>Welcome to my Exam - Messenger like system</h1>
 
 <div class="chat-area">
-{{#if threads}}
+  {{#if threads}}
     <h2>Here are all off {{currentUser.username}} threads!</h2>
     {{#each threads}}
-        <div class="outer">
-            <div>Thread: {{this._id}}</div>
-            <div>Started at: {{this.createdAt}}</div>
-            <div class="currUser-name">Opened By: {{this.openedBy.username}}</div>
-            <div class="particip-name">Participant: {{this.participant.username}}</div>
-        </div>
+      <div class="outer">
+        <div>Thread: {{this._id}}</div>
+        <div>Started at: {{this.createdAt}}</div>
+        <div class="currUser-name">Opened By: {{this.openedBy.username}}</div>
+        <div class="particip-name">Participant: {{this.participant.username}}</div>
+        {{#if this.isCurrUserOwned}}
+          <div class='home-view-messages'><a href='/thread/{{this.participant.username}}'>View messages</a></div>
+        {{else}}
+          <div class='home-view-messages'><a href='/thread/{{this.openedBy.username}}'>View messages</a></div>
+        {{/if}}
+
+      </div>
     {{/each}}
-{{/if}}
+  {{/if}}
 </div>
 
 {{#if globalError}}
-    <h3>{{globalError}}</h3>
+  <h3>{{globalError}}</h3>
 {{/if}}

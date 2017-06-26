@@ -17,11 +17,18 @@ module.exports = {
       Thread.find().findThisUser(userId)
         .select('_id createdAt openedBy participant')
         .sort({createdAt: -1})
+        .lean()
         .then((threads) => {
 
           //  console.log(threads)
           //  console.log(threads[0])
           //  console.log(threads[0].createdAt.toISOString())
+
+          threads.map((thread) => {
+            if (thread.openedBy._id.toString() === userId.toString()) {
+              thread.isCurrUserOwned = true
+            }
+          })
 
           res.render('home/index', {
             user: user,

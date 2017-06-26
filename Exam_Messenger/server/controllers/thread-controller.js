@@ -9,9 +9,10 @@ const errorHandler = require('../utilities/error-handler')
 module.exports = {
   searchPost: (req, res) => {
     let currUser = req.user
-    let reqUser = req.query.username
+    let reqUser = req.query.username || req.params.reqUser
 
     //  console.log(req.user.blockedUsers)
+    //  console.log(req.params)
 
     if (currUser.username === reqUser) {
       let message = 'You can not send message to yourself!'
